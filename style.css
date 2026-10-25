@@ -80,6 +80,7 @@ button:disabled { opacity: 0.4; cursor: not-allowed; }
 #result { padding: 12px; font-weight: bold; }
 #result.win { background: #1f4a2a; border: 1px solid #3fa34d; }
 #result.loss { background: #4a1f1f; border: 1px solid #d33; }
+#result.draw { background: #4a4a1f; border: 1px solid #d3c233; }
 
 #log:empty::before { content: "Nothing happened yet."; color: #888; }
 
