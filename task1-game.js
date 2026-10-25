@@ -1,4 +1,5 @@
 const MAX_HP = 100;
+const MAX_TURNS = 10;
 
 const JAB_MIN = 8;
 const JAB_MAX = 12;
@@ -39,6 +40,8 @@ function newState() {
     enemyHp: MAX_HP,
     healsLeft: MAX_HEALS,
     guarding: false,
+    lastMove: "",
+    turns: 0,
     over: false,
     outcome: "",
     resultText: "",
@@ -82,12 +85,13 @@ function playerTurn(move) {
     }
     return;
   }
-  if (move === "guard" && state.guarding === true) {
-    showMessage("You are already guarding.", true);
+  if (move === "guard" && state.lastMove === "guard") {
+    showMessage("You cannot guard twice in a row.", true);
     return;
   }
 
   showMessage("", false);
+  state.lastMove = move;
 
   if (move === "jab") {
     const dmg = randInt(JAB_MIN, JAB_MAX);
@@ -123,10 +127,19 @@ function playerTurn(move) {
   }
 
   enemyTurn();
+  state.turns += 1;
 
   if (state.playerHp <= 0) {
     state.playerHp = 0;
     finish("loss", "You are knocked out. You lose.");
+  } else if (state.turns === MAX_TURNS) {
+    if (state.playerHp > state.enemyHp) {
+      finish("win", "Judges' decision: you win on points.");
+    } else if (state.playerHp < state.enemyHp) {
+      finish("loss", "Judges' decision: the rival wins on points.");
+    } else {
+      finish("draw", "Judges' decision: draw.");
+    }
   }
 
   render();
@@ -168,8 +181,8 @@ function render() {
   playerHpBar.classList.toggle("low", state.playerHp <= MAX_HP * LOW_HP_PERCENT);
   enemyHpBar.classList.toggle("low", state.enemyHp <= MAX_HP * LOW_HP_PERCENT);
 
-  info.textContent = "Water breaks left: " + state.healsLeft +
-    (state.guarding ? " | Guard is up" : "");
+  info.textContent = "Turn " + state.turns + " of " + MAX_TURNS +
+    " | Water breaks left: " + state.healsLeft;
 
   const buttons = controls.querySelectorAll("button");
   for (const btn of buttons) {
@@ -178,7 +191,7 @@ function render() {
 
   result.hidden = !state.over;
   result.textContent = state.resultText;
-  result.classList.remove("win", "loss");
+  result.classList.remove("win", "loss", "draw");
   if (state.over) {
     result.classList.add(state.outcome);
   }
