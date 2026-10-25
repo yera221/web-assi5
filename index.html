@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Octagon Fight</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="task1-game.js" defer></script>
+</head>
+<body>
+  <main class="game">
+    <h1>Octagon Fight</h1>
+
+    <div class="cage">
+      <div class="fighters">
+        <section class="fighter">
+          <img class="portrait" src="images/111.webp" alt="Your fighter">
+          <h2>You</h2>
+          <p>HP: <span id="player-hp-text"></span></p>
+          <progress id="player-hp" max="100" value="100"></progress>
+        </section>
+        <section class="fighter">
+          <img class="portrait" src="images/222.webp" alt="Rival fighter">
+          <h2>Rival</h2>
+          <p>HP: <span id="enemy-hp-text"></span></p>
+          <progress id="enemy-hp" max="100" value="100"></progress>
+        </section>
+      </div>
+    </div>
+
+    <p id="info"></p>
+    <p id="message" role="status"></p>
+
+    <div id="controls">
+      <button type="button" data-move="jab">Jab</button>
+      <button type="button" data-move="kick">Power kick</button>
+      <button type="button" data-move="clinch">Clinch</button>
+      <button type="button" data-move="guard">Guard</button>
+      <button type="button" data-move="heal">Water break</button>
+    </div>
+
+    <p id="result" hidden></p>
+    <button type="button" id="restart">New fight</button>
+
+    <h3>Last 5 actions</h3>
+    <ol id="log"></ol>
+  </main>
+</body>
+</html>
